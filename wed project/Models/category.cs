@@ -12,6 +12,9 @@ namespace wed_project.Models
         public string Name { get; set; }
 
         public string Image { get; set; }   // ảnh category
+
+        // Navigation property - danh sách sản phẩm thuộc category này
+        public ICollection<Product>? Products { get; set; }
     }
 }
 
