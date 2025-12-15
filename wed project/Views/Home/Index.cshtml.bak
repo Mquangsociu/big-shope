@@ -210,13 +210,10 @@
 								</span>
 							</div>
 							<a class="now-get get-cart" href="/Cart/AddToCart/@product.Id">ADD TO CART</a>
-							@if (User.IsInRole("Admin"))
-							{
-								<div style="margin-top: 10px;">
-									<a href="/Admin/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
-									<a href="/Admin/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
-								</div>
-							}
+							<div style="margin-top: 10px;">
+								<a href="/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
+								<a href="/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
+							</div>
 							<div class="clearfix"> </div>
 						</div>
 					</div>
@@ -274,13 +271,10 @@
 								</span>
 							</div>
 							<a class="now-get get-cart" href="/Cart/AddToCart/@product.Id">ADD TO CART</a>
-							@if (User.IsInRole("Admin"))
-							{
-								<div style="margin-top: 10px;">
-									<a href="/Admin/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
-									<a href="/Admin/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
-								</div>
-							}
+							<div style="margin-top: 10px;">
+								<a href="/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
+								<a href="/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
+							</div>
 							<div class="clearfix"> </div>
 						</div>
 					</div>

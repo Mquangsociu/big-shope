@@ -15,6 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -24,6 +25,13 @@ builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// Seed admin user and roles
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.Initialize(services);
+}
 
 // ===== MIDDLEWARE =====
 if (app.Environment.IsDevelopment())
@@ -48,6 +56,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // ===== ROUTING =====
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
