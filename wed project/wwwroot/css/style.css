@@ -160,6 +160,68 @@ ul.login li a span{
 	position:relative;
 }
 /*----*/
+/* Navigation Bar Styles */
+.navbar {
+	background: #1DBAA5;
+	border-bottom: 1px solid #ddd;
+	padding: 0;
+}
+.nav-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.nav-item {
+	display: inline-block;
+	position: relative;
+}
+.nav-link {
+	display: block;
+	padding: 15px 20px;
+	text-decoration: none;
+	color: #fff;
+	font-size: 1.1em;
+	font-weight: 600;
+	transition: background 0.3s ease;
+}
+.nav-item:hover .nav-link {
+	background: #17a089;
+}
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background: #fff;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	min-width: 180px;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+	z-index: 1000;
+}
+.nav-item:hover .dropdown-menu {
+	display: block;
+}
+.dropdown-menu li {
+	border-bottom: 1px solid #eee;
+}
+.dropdown-menu li:last-child {
+	border-bottom: none;
+}
+.dropdown-menu li a {
+	display: block;
+	padding: 12px 20px;
+	text-decoration: none;
+	color: #333;
+	font-size: 1em;
+	transition: background 0.3s ease;
+}
+.dropdown-menu li a:hover {
+	background: #1DBAA5;
+	color: #fff;
+}
+/*----*/
 h3.cate {
 	color: #fff;
 	font-size: 1.7em;
