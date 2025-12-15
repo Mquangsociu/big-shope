@@ -30,7 +30,35 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    SeedData.Initialize(services).Wait();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+    // Create Admin role if it doesn't exist
+    if (!roleManager.RoleExistsAsync("Admin").Result)
+    {
+        roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
+    }
+
+    // Create default admin user
+    var adminEmail = "admin@bigshope.com";
+    var adminUser = userManager.FindByEmailAsync(adminEmail).Result;
+    
+    if (adminUser == null)
+    {
+        adminUser = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+        
+        var result = userManager.CreateAsync(adminUser, "Admin@123").Result;
+        
+        if (result.Succeeded)
+        {
+            userManager.AddToRoleAsync(adminUser, "Admin").Wait();
+        }
+    }
 }
 
 // ===== MIDDLEWARE =====
@@ -56,10 +84,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // ===== ROUTING =====
-app.MapControllerRoute(
-    name: "admin",
-    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,8 +1,4 @@
-@using wed_project.Models
-@{
-	var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
-	var products = ViewBag.Products as List<Product> ?? new List<Product>();
-}
+﻿
 	<!--header-->
 	<div class="header">
 		<div class="top-header">
@@ -61,6 +57,18 @@
 						<li><a href="/Identity/Account/Register">SIGNUP</a></li>
 					</ul>
 					<div class="cart"><a href="#"><span> </span>CART</a></div>
+					@if (User.IsInRole("Admin"))
+					{
+						<div class="admin-menu" style="display: inline-block; position: relative; margin-left: 15px;">
+							<div class="admin-link" style="display: inline-block; cursor: pointer;">
+								<a href="#" style="text-decoration: none; color: #fff; font-weight: 600;"><span> </span>ADMIN</a>
+							</div>
+							<ul class="admin-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: #333; list-style: none; padding: 10px 0; margin: 0; min-width: 150px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+								<li style="padding: 5px 15px;"><a href="/Categories" style="color: #fff; text-decoration: none; display: block;">Categories</a></li>
+								<li style="padding: 5px 15px;"><a href="/Products" style="color: #fff; text-decoration: none; display: block;">Products</a></li>
+							</ul>
+						</div>
+					}
 					<div class="clearfix"> </div>
 				</div>
 				<div class="clearfix"> </div>
@@ -171,168 +179,234 @@
 	</div>
 	<div class="products">
 		<h5 class="latest-product">LATEST PRODUCTS</h5>
-		<a class="view-all" href="/Products">VIEW ALL<span> </span></a>
+		<a class="view-all" href="product.html">VIEW ALL<span> </span></a>
 	</div>
 	<div class="product-left">
-		@if (products != null && products.Count > 0)
-		{
-			@foreach (var product in products.Take(6))
-			{
-				<div class="col-md-4 chain-grid">
-					<a href="/Products/Details/@product.Id">
-						@if (!string.IsNullOrEmpty(product.Image))
-						{
-							<img class="img-responsive chain" src="@product.Image" alt="@product.Name" />
-						}
-						else
-						{
-							<img class="img-responsive chain" src="images/ch.jpg" alt="@product.Name" />
-						}
-					</a>
-					<span class="star"> </span>
-					<div class="grid-chain-bottom">
-						<h6><a href="/Products/Details/@product.Id">@product.Name</a></h6>
-						<div class="star-price">
-							<div class="dolor-grid">
-								<span class="actual">@product.Price.ToString("N0") VNĐ</span>
-								<span style="font-size: 11px; color: #999;">@(product.Category?.Name ?? "")</span>
-								<span class="rating">
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-5" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-5" class="rating-star1"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-4" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-4" class="rating-star1"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-3" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-3" class="rating-star"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-2" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-2" class="rating-star"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-1" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-1" class="rating-star"> </label>
-								</span>
-							</div>
-							<a class="now-get get-cart" href="/Cart/AddToCart/@product.Id">ADD TO CART</a>
-							@if (User.IsInRole("Admin"))
-							{
-								<div style="margin-top: 10px;">
-									<a href="/Admin/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
-									<a href="/Admin/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
-								</div>
-							}
-							<div class="clearfix"> </div>
-						</div>
+		<div class="col-md-4 chain-grid">
+			<a href="single.html"><img class="img-responsive chain" src="images/ch.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
 					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
 				</div>
-			}
-		}
-		else
-		{
-			<div class="col-md-12">
-				<p style="text-align: center; padding: 20px; color: #999;">
-					Chưa có sản phẩm nào. <a href="/Products/Create">Thêm sản phẩm</a>
-				</p>
 			</div>
-		}
+		</div>
+		<div class="col-md-4 chain-grid">
+			<a href="single.html"><img class="img-responsive chain" src="images/ba.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
+					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 chain-grid grid-top-chain">
+			<a href="single.html"><img class="img-responsive chain" src="images/bo.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
+					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
 		<div class="clearfix"> </div>
 	</div>
-	@if (products != null && products.Count > 6)
-	{
-		<div class="products">
-			<h5 class="latest-product">MORE PRODUCTS</h5>
-			<a class="view-all" href="/Products">VIEW ALL<span> </span></a>
-		</div>
-		<div class="product-left">
-			@foreach (var product in products.Skip(6).Take(6))
-			{
-				<div class="col-md-4 chain-grid">
-					<a href="/Products/Details/@product.Id">
-						@if (!string.IsNullOrEmpty(product.Image))
-						{
-							<img class="img-responsive chain" src="@product.Image" alt="@product.Name" />
-						}
-						else
-						{
-							<img class="img-responsive chain" src="images/ch.jpg" alt="@product.Name" />
-						}
-					</a>
-					<span class="star"> </span>
-					<div class="grid-chain-bottom">
-						<h6><a href="/Products/Details/@product.Id">@product.Name</a></h6>
-						<div class="star-price">
-							<div class="dolor-grid">
-								<span class="actual">@product.Price.ToString("N0") VNĐ</span>
-								<span style="font-size: 11px; color: #999;">@(product.Category?.Name ?? "")</span>
-								<span class="rating">
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-5" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-5" class="rating-star1"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-4" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-4" class="rating-star1"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-3" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-3" class="rating-star"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-2" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-2" class="rating-star"> </label>
-									<input type="radio" class="rating-input" id="rating-input-@product.Id-1" name="rating-input-@product.Id">
-									<label for="rating-input-@product.Id-1" class="rating-star"> </label>
-								</span>
-							</div>
-							<a class="now-get get-cart" href="/Cart/AddToCart/@product.Id">ADD TO CART</a>
-							@if (User.IsInRole("Admin"))
-							{
-								<div style="margin-top: 10px;">
-									<a href="/Admin/Products/Edit/@product.Id" class="btn btn-sm btn-warning" style="font-size: 11px; padding: 3px 8px;">Sửa</a>
-									<a href="/Admin/Products/Delete/@product.Id" class="btn btn-sm btn-danger" style="font-size: 11px; padding: 3px 8px;">Xóa</a>
-								</div>
-							}
-							<div class="clearfix"> </div>
-						</div>
+	<div class="products">
+		<h5 class="latest-product">LATEST PRODUCTS</h5>
+		<a class="view-all" href="product.html">VIEW ALL<span> </span></a>
+	</div>
+	<div class="product-left">
+		<div class="col-md-4 chain-grid">
+			<a href="single.html"><img class="img-responsive chain" src="images/bott.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
 					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
 				</div>
-			}
-			<div class="clearfix"> </div>
+			</div>
 		</div>
-	}
+		<div class="col-md-4 chain-grid">
+			<a href="single.html"><img class="img-responsive chain" src="images/bottle.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
+					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 chain-grid grid-top-chain">
+			<a href="single.html"><img class="img-responsive chain" src="images/baa.jpg" alt=" " /></a>
+			<span class="star"> </span>
+			<div class="grid-chain-bottom">
+				<h6><a href="single.html">Lorem ipsum dolor</a></h6>
+				<div class="star-price">
+					<div class="dolor-grid">
+						<span class="actual">300$</span>
+						<span class="reducedfrom">400$</span>
+						<span class="rating">
+							<input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
+							<label for="rating-input-1-5" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
+							<label for="rating-input-1-4" class="rating-star1"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
+							<label for="rating-input-1-3" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
+							<label for="rating-input-1-2" class="rating-star"> </label>
+							<input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
+							<label for="rating-input-1-1" class="rating-star"> </label>
+						</span>
+					</div>
+					<a class="now-get get-cart" href="#">ADD TO CART</a>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
 	<div class="clearfix"> </div>
 </div>
 	<div class="sub-cate">
 		<div class=" top-nav rsidebar span_1_of_left">
-			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-				<h3 class="cate" style="margin: 0;">CATEGORIES</h3>
-				@if (User.IsInRole("Admin"))
-				{
-					<a href="/Admin" class="btn btn-sm btn-primary" style="font-size: 12px; padding: 5px 10px;">Admin Panel</a>
-				}
-			</div>
+			<h3 class="cate">CATEGORIES</h3>
 			<ul class="menu">
-				@if (categories != null && categories.Count > 0)
-				{
-					@foreach (var category in categories)
-					{
-						<li class="item1">
-							<a href="/Categories/Details/@category.Id">
-								@category.Name
-								<span style="font-size: 11px; color: #999;"> (@(category.Products?.Count ?? 0))</span>
-								<img class="arrow-img" src="images/arrow1.png" alt="" />
-							</a>
-							@if (category.Products != null && category.Products.Count > 0)
-							{
-								<ul class="cute">
-									@foreach (var product in category.Products.Take(3))
-									{
-										<li class="subitem1"><a href="/Products/Details/@product.Id">@product.Name</a></li>
-									}
-									@if (category.Products.Count > 3)
-									{
-										<li class="subitem1"><a href="/Categories/Details/@category.Id">Xem thêm...</a></li>
-									}
-								</ul>
-							}
-						</li>
-					}
-				}
-				else
-				{
-					<li>
-						<p style="padding: 10px; color: #999;">Chưa có danh mục nào. <a href="/Categories/Create">Tạo danh mục</a></p>
-					</li>
-				}
+				<li class="item1">
+					<a href="#">Curabitur sapien<img class="arrow-img" src="images/arrow1.png" alt="" /> </a>
+					<ul class="cute">
+						<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+						<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+						<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+					</ul>
+				</li>
+				<li class="item2">
+					<a href="#">Dignissim purus <img class="arrow-img " src="images/arrow1.png" alt="" /></a>
+					<ul class="cute">
+						<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+						<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+						<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+					</ul>
+				</li>
+				<li class="item3">
+					<a href="#">Ultrices id du<img class="arrow-img img-arrow" src="images/arrow1.png" alt="" /> </a>
+					<ul class="cute">
+						<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+						<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+						<li class="subitem3"><a href="product.html">Automatic Fails</a></li>
+					</ul>
+				</li>
+				<li class="item4">
+					<a href="#">Cras iacaus rhone <img class="arrow-img img-left-arrow" src="images/arrow1.png" alt="" /></a>
+					<ul class="cute">
+						<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+						<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+						<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+					</ul>
+				</li>
+				<li>
+					<ul class="kid-menu">
+						<li><a href="product.html">Tempus pretium</a></li>
+						<li><a href="product.html">Dignissim neque</a></li>
+						<li><a href="product.html">Ornared id aliquet</a></li>
+					</ul>
+				</li>
+				<ul class="kid-menu ">
+					<li><a href="product.html">Commodo sit</a></li>
+					<li><a href="product.html">Urna ac tortor sc</a></li>
+					<li><a href="product.html">Ornared id aliquet</a></li>
+					<li><a href="product.html">Urna ac tortor sc</a></li>
+					<li><a href="product.html">Eget nisi laoreet</a></li>
+					<li><a href="product.html">Faciisis ornare</a></li>
+					<li class="menu-kid-left"><a href="contact.html">Contact us</a></li>
+				</ul>
 			</ul>
 		</div>
 		<!--initiate accordion-->
@@ -458,3 +532,16 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+$(document).ready(function() {
+$('.admin-menu').hover(
+function() {
+$(this).find('.admin-dropdown').stop(true, true).slideDown(200);
+},
+function() {
+$(this).find('.admin-dropdown').stop(true, true).slideUp(200);
+}
+);
+});
+</script>
