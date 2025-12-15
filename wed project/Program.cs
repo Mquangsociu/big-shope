@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ===== SERVICES =====
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Data Source=bigshope.db";
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
