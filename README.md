@@ -29,12 +29,31 @@ cd big-shope
 
 ### 2. Update Database Connection String
 
-Edit `BigShope/appsettings.json` and update the connection string if needed:
+Edit `BigShope/appsettings.json` and update the connection string based on your SQL Server setup:
 
+**For LocalDB (Visual Studio):**
 ```json
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=BigShopeDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+```
+
+**For SQL Server Express:**
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=BigShopeDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+```
+
+**For SQL Server with credentials:**
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=BigShopeDb;User Id=YOUR_USER;Password=YOUR_PASSWORD;MultipleActiveResultSets=true;TrustServerCertificate=True"
   }
 }
 ```
