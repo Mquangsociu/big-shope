@@ -1,0 +1,45 @@
+@model IEnumerable<BigShope.Models.Product>
+@{
+    ViewData["Title"] = "Product Management";
+}
+
+<div class="container">
+    <div class="account_grid">
+        <h3>PRODUCT MANAGEMENT</h3>
+        
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New Product</a>
+        </p>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.Name</td>
+                        <td>@product.Category?.Name</td>
+                        <td>$@product.Price</td>
+                        <td>@product.StockQuantity</td>
+                        <td>@(product.IsActive ? "Yes" : "No")</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+@model BigShope.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/etalage.css" type="text/css" media="all" />
+}
+
+<div class="container">
+    <div class="single_top">
+        <div class="single_grid">
+            <div class="grid images_3_of_2">
+                <ul id="etalage">
+                    <li>
+                        <a href="#">
+                            <img class="etalage_thumb_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/s4.jpg" : Model.ImageUrl)" class="img-responsive" />
+                            <img class="etalage_source_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/si4.jpg" : Model.ImageUrl)" class="img-responsive" title="@Model.Name" />
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="desc1 span_3_of_2">
+                <h4>@Model.Name</h4>
+                <div class="cart-b">
+                    @if (Model.PromotionalPrice.HasValue)
+                    {
+                        <div class="left-n" style="text-decoration: line-through; color: #999;">$@Model.Price</div>
+                        <div class="left-n" style="color: #ff0000; font-weight: bold;">$@Model.PromotionalPrice</div>
+                    }
+                    else
+                    {
+                        <div class="left-n">$@Model.Price</div>
+                    }
+                    <form method="post" asp-controller="Cart" asp-action="AddToCart" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.ProductId" />
+                        <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" style="width: 60px; margin-right: 10px;" />
+                        <button type="submit" class="now-get get-cart-in">ADD TO CART</button>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <h6>@Model.StockQuantity items in stock</h6>
+                <p>@Model.Description</p>
+                <div class="share">
+                    <h5>Share Product :</h5>
+                    <ul class="share_nav">
+                        <li><a href="#"><img src="~/images/facebook.png" title="facebook"></a></li>
+                        <li><a href="#"><img src="~/images/twitter.png" title="Twitter"></a></li>
+                        <li><a href="#"><img src="~/images/rss.png" title="Rss"></a></li>
+                        <li><a href="#"><img src="~/images/gpluse.png" title="Google+"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        @if (ViewBag.RelatedProducts != null && ViewBag.RelatedProducts.Count > 0)
+        {
+            <h3 class="m_3">Related Products</h3>
+            <ul id="flexiselDemo1">
+                @foreach (var relatedProduct in ViewBag.RelatedProducts)
+                {
+                    <li>
+                        <a asp-action="Details" asp-route-id="@relatedProduct.ProductId">
+                            <img src="@(string.IsNullOrEmpty(relatedProduct.ImageUrl) ? "~/images/pi.jpg" : relatedProduct.ImageUrl)" />
+                        </a>
+                        <div class="grid-flex">
+                            <a asp-action="Details" asp-route-id="@relatedProduct.ProductId">@relatedProduct.Name</a>
+                            <p>$@(relatedProduct.PromotionalPrice ?? relatedProduct.Price)</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+
+        <div class="toogle">
+            <h3 class="m_3">Product Details</h3>
+            <p class="m_text">@Model.Description</p>
+            @if (Model.Category != null)
+            {
+                <p><strong>Category:</strong> @Model.Category.Name</p>
+            }
+            <p><strong>Stock:</strong> @Model.StockQuantity units available</p>
+            @if (Model.IsNew)
+            {
+                <span class="badge" style="background-color: #28a745;">New Product</span>
+            }
+            @if (Model.IsPromotion)
+            {
+                <span class="badge" style="background-color: #dc3545;">On Promotion</span>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/jquery.etalage.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.flexisel.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $('#etalage').etalage({
+                thumb_image_width: 300,
+                thumb_image_height: 400,
+                source_image_width: 900,
+                source_image_height: 1200,
+                show_hint: true
+            });
+        });
+
+        $(window).load(function () {
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 5,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: true,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 3
+                    }
+                }
+            });
+        });
+    </script>
+}

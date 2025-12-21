@@ -1,0 +1,73 @@
+@model IEnumerable<BigShope.Models.CartItem>
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container">
+    <div class="account_grid">
+        <h3>CHECKOUT</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Order Summary</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            decimal total = 0;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            var price = item.Product?.PromotionalPrice ?? item.Product?.Price ?? 0;
+                            var subtotal = price * item.Quantity;
+                            total += subtotal;
+                            
+                            <tr>
+                                <td>@item.Product?.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>$@subtotal.ToString("F2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2"><strong>Total:</strong></td>
+                            <td><strong>$@total.ToString("F2")</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="col-md-6">
+                <h4>Shipping Information</h4>
+                <form method="post" asp-action="PlaceOrder">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label>Customer Name<span class="text-danger">*</span></label>
+                        <input type="text" name="customerName" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Shipping Address<span class="text-danger">*</span></label>
+                        <textarea name="shippingAddress" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number<span class="text-danger">*</span></label>
+                        <input type="tel" name="phoneNumber" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg">Place Order</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to Cart</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
