@@ -1,7 +1,7 @@
-@model wed_project.Models.Product
+@model IEnumerable<wed_project.Models.Product>
 
 @{
-    ViewData["Title"] = "Product Details";
+    ViewData["Title"] = "Products";
 }
 
 <!--header-->
@@ -82,67 +82,47 @@
 	</div>
 </div>
 
-<!---->
+<!-- start content -->
 <div class="container">
-	<div class="single_top">
-		<div class="single_grid">
-			<div class="grid images_3_of_2">
-				<div class="product-image">
-					@if (!string.IsNullOrEmpty(Model.Image))
-					{
-						<img class="img-responsive" src="~/@Model.Image" alt="@Model.Name" style="max-width: 100%;" />
-					}
-					else
-					{
-						<img class="img-responsive" src="~/images/si4.jpg" alt="@Model.Name" style="max-width: 100%;" />
-					}
-				</div>
-				<div class="clearfix"> </div>
+	<div class="women-product">
+		<div class=" w_content">
+			<div class="women">
+				<h4>All Products - <span>@Model.Count() items</span></h4>
 			</div>
-			<div class="desc1 span_3_of_2">
-				<h4>@Model.Name</h4>
-				<div class="cart-b">
-					<div class="left-n ">$@Model.Price</div>
-					<a class="now-get get-cart-in" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id">ADD TO CART</a>
-					<div class="clearfix"></div>
-				</div>
-				<h6>Category: @(Model.Category?.Name ?? "Uncategorized")</h6>
-				<p>
-					This is a high-quality product from our @(Model.Category?.Name ?? "collection"). 
-					Available at a great price of $@Model.Price. 
-					Add to cart now and enjoy our fast shipping!
-				</p>
-				<div class="share">
-					<h5>Share Product :</h5>
-					<ul class="share_nav">
-						<li><a href="#"><img src="~/images/facebook.png" title="facebook" /></a></li>
-						<li><a href="#"><img src="~/images/twitter.png" title="Twitter" /></a></li>
-						<li><a href="#"><img src="~/images/rss.png" title="Rss" /></a></li>
-						<li><a href="#"><img src="~/images/gpluse.png" title="Google+" /></a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="clearfix"> </div>
 		</div>
-
-		<div class="toogle">
-			<h3 class="m_3">Product Details</h3>
-			<p class="m_text">
-				<strong>Product Name:</strong> @Model.Name<br />
-				<strong>Price:</strong> $@Model.Price<br />
-				<strong>Category:</strong> @(Model.Category?.Name ?? "Uncategorized")<br />
-				<br />
-				This product is carefully selected for quality and value. 
-				Shop with confidence knowing you're getting a great deal!
-			</p>
-		</div>
-
-		<div class="back-to-products">
-			<a asp-controller="Products" asp-action="Index" class="btn btn-primary">Back to Products</a>
-			@if (isAuth)
+		<!-- grids_of_4 -->
+		<div class="grid-product">
+			@foreach (var product in Model)
 			{
-				<a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit Product</a>
+				<div class="product-grid">
+					<div class="content_box">
+						<a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+							<div class="left-grid-view grid-view-left">
+								@if (!string.IsNullOrEmpty(product.Image))
+								{
+									<img src="~/@product.Image" class="img-responsive watch-right" alt="@product.Name" />
+								}
+								else
+								{
+									<img src="~/images/pic2.jpg" class="img-responsive watch-right" alt="@product.Name" />
+								}
+								<div class="mask">
+									<div class="info">Quick View</div>
+								</div>
+							</div>
+						</a>
+						<h4><a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">@product.Name</a></h4>
+						<p>@(product.Category?.Name ?? "Uncategorized")</p>
+						<div class="price-cart">
+							<span class="price">$@product.Price</span>
+							<a class="btn btn-sm btn-success" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id">
+								Add to Cart
+							</a>
+						</div>
+					</div>
+				</div>
 			}
+			<div class="clearfix"> </div>
 		</div>
 	</div>
 </div>
