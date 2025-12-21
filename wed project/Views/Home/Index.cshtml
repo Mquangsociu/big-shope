@@ -56,16 +56,16 @@
 				<div class="clearfix"> </div>
 			</div>
 			<div class="header-bottom-right">
-				<div class="account"><a href="/Identity/Account/Manage"><span> </span>YOUR ACCOUNT</a></div>
+				<div class="account"><a asp-area="Identity" asp-page="/Account/Manage/Index"><span> </span>YOUR ACCOUNT</a></div>
 				@{ var isAuth = User?.Identity?.IsAuthenticated ?? false; }
 				@if (!isAuth)
 				{
 					<ul class="login">
-						<li><a href="/Identity/Account/Login"><span> </span>LOGIN</a></li> |
-						<li><a href="/Identity/Account/Register">SIGNUP</a></li>
+						<li><a asp-area="Identity" asp-page="/Account/Login"><span> </span>LOGIN</a></li> |
+						<li><a asp-area="Identity" asp-page="/Account/Register">SIGNUP</a></li>
 					</ul>
 				}
-				<div class="cart"><a href="#"><span> </span>CART</a></div>
+				<div class="cart"><a asp-controller="Cart" asp-action="Index"><span> </span>CART</a></div>
 				@if (isAuth)
 				{
 					<!-- ADMIN hover menu appears when authenticated; placed next to CART -->
