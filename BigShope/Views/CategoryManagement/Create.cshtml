@@ -1,0 +1,43 @@
+@model BigShope.Models.Category
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="container">
+    <div class="register">
+        <h3>CREATE NEW CATEGORY</h3>
+        
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mation">
+                <span asp-validation-for="Name" class="text-danger"></span>
+                <span>Category Name<label>*</label></span>
+                <input asp-for="Name" type="text" />
+            </div>
+            
+            <div class="mation">
+                <span asp-validation-for="Description" class="text-danger"></span>
+                <span>Description</span>
+                <textarea asp-for="Description" rows="3"></textarea>
+            </div>
+            
+            <div class="mation">
+                <label>
+                    <input asp-for="IsActive" type="checkbox" checked />
+                    Active
+                </label>
+            </div>
+            
+            <div class="register-but">
+                <input type="submit" value="Create" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

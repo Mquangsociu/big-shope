@@ -1,0 +1,73 @@
+@model IEnumerable<BigShope.Models.Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <div class="women-product">
+        <div class="w_content">
+            <div class="women">
+                @if (ViewBag.CurrentCategory != null)
+                {
+                    <a href="#"><h4>@ViewBag.CurrentCategory.Name - <span>@Model.Count() items</span></h4></a>
+                }
+                else
+                {
+                    <a href="#"><h4>All Products - <span>@Model.Count() items</span></h4></a>
+                }
+                <ul class="w_nav">
+                    <li>Categories: </li>
+                    <li><a asp-action="Index" asp-route-categoryId="">All</a></li>
+                    @if (ViewBag.Categories != null)
+                    {
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <li> | </li>
+                            <li><a asp-action="Index" asp-route-categoryId="@category.CategoryId">@category.Name</a></li>
+                        }
+                    }
+                    <div class="clearfix"> </div>
+                </ul>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+
+        <div class="grid-product">
+            @foreach (var product in Model)
+            {
+                <div class="product-grid">
+                    <div class="content_box">
+                        <a asp-action="Details" asp-route-id="@product.ProductId">
+                            <div class="left-grid-view grid-view-left">
+                                <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "~/images/pic13.jpg" : product.ImageUrl)" class="img-responsive watch-right" alt="@product.Name" />
+                                <div class="mask">
+                                    <div class="info">Quick View</div>
+                                </div>
+                            </div>
+                        </a>
+                        <h4><a asp-action="Details" asp-route-id="@product.ProductId">@product.Name</a></h4>
+                        <p>@(product.Description != null && product.Description.Length > 50 ? product.Description.Substring(0, 50) : product.Description ?? "")...</p>
+                        @if (product.PromotionalPrice.HasValue)
+                        {
+                            <span style="text-decoration: line-through; color: #999;">$@product.Price</span>
+                            <span style="color: #ff0000; font-weight: bold;">$@product.PromotionalPrice</span>
+                        }
+                        else
+                        {
+                            <span>$@product.Price</span>
+                        }
+                        <div>
+                            <form method="post" asp-controller="Cart" asp-action="AddToCart" style="display:inline; margin-top: 10px;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>

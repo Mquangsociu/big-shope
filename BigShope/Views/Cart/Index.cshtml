@@ -1,0 +1,78 @@
+@model IEnumerable<BigShope.Models.CartItem>
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="container">
+    <div class="account_grid">
+        <h3>SHOPPING CART</h3>
+        
+        @if (!Model.Any())
+        {
+            <p>Your cart is empty.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        decimal total = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        var price = item.Product?.PromotionalPrice ?? item.Product?.Price ?? 0;
+                        var subtotal = price * item.Quantity;
+                        total += subtotal;
+                        
+                        <tr>
+                            <td>
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">
+                                    @item.Product?.Name
+                                </a>
+                            </td>
+                            <td>$@price</td>
+                            <td>
+                                <form method="post" asp-action="UpdateQuantity" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.Product?.StockQuantity" style="width: 60px;" />
+                                    <button type="submit" class="btn btn-sm btn-info">Update</button>
+                                </form>
+                            </td>
+                            <td>$@subtotal.ToString("F2")</td>
+                            <td>
+                                <form method="post" asp-action="Remove" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+                        <td><strong>$@total.ToString("F2")</strong></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            <div style="margin-top: 20px;">
+                <a asp-controller="Products" asp-action="Index" class="btn btn-secondary">Continue Shopping</a>
+                <a asp-action="Checkout" class="btn btn-success">Proceed to Checkout</a>
+            </div>
+        }
+    </div>
+</div>

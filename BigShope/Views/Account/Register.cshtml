@@ -1,0 +1,56 @@
+@model BigShope.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="register">
+        <form asp-action="Register" method="post">
+            <div class="register-top-grid">
+                <h3>PERSONAL INFORMATION</h3>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mation">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span>Email Address<label>*</label></span>
+                    <input asp-for="Email" type="text" />
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="register-bottom-grid">
+                <h3>LOGIN INFORMATION</h3>
+                <div class="mation">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span>Password<label>*</label></span>
+                    <input asp-for="Password" type="password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <span>Confirm Password<label>*</label></span>
+                    <input asp-for="ConfirmPassword" type="password" />
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+            <div class="register-but">
+                <input type="submit" value="submit">
+                @Html.AntiForgeryToken()
+                <div class="clearfix"> </div>
+            </div>
+        </form>
+    </div>
+    <div class="sub-cate">
+        <div class="top-nav rsidebar span_1_of_left">
+            <h3 class="cate">CATEGORIES</h3>
+            <ul class="menu">
+                @if (ViewBag.FooterCategories != null)
+                {
+                    @foreach (var category in ViewBag.FooterCategories)
+                    {
+                        <li><a asp-controller="Products" asp-action="Index" asp-route-categoryId="@category.CategoryId">@category.Name</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

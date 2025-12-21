@@ -1,0 +1,71 @@
+@model BigShope.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="container">
+    <div class="register">
+        <h3>EDIT PRODUCT</h3>
+        
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="CreatedDate" />
+            
+            <div class="mation">
+                <span>Product Name<label>*</label></span>
+                <input asp-for="Name" type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="mation">
+                <span>Description</span>
+                <textarea asp-for="Description" rows="3"></textarea>
+            </div>
+            
+            <div class="mation">
+                <span>Category<label>*</label></span>
+                <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            
+            <div class="mation">
+                <span>Price<label>*</label></span>
+                <input asp-for="Price" type="number" step="0.01" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            
+            <div class="mation">
+                <span>Promotional Price</span>
+                <input asp-for="PromotionalPrice" type="number" step="0.01" />
+            </div>
+            
+            <div class="mation">
+                <span>Image URL</span>
+                <input asp-for="ImageUrl" type="text" />
+            </div>
+            
+            <div class="mation">
+                <span>Stock Quantity<label>*</label></span>
+                <input asp-for="StockQuantity" type="number" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+            
+            <div class="mation">
+                <label><input asp-for="IsNew" type="checkbox" /> New Product</label>
+                <label><input asp-for="IsPromotion" type="checkbox" /> On Promotion</label>
+                <label><input asp-for="IsActive" type="checkbox" /> Active</label>
+            </div>
+            
+            <div class="register-but">
+                <input type="submit" value="Save" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
