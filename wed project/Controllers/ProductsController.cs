@@ -19,11 +19,20 @@ namespace wed_project.Controllers
             _context = context;
         }
 
-        // GET: Products
+        // GET: Products - Public view with beautiful UI
         public async Task<IActionResult> Index()
         {
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .ToListAsync();
+            return View("IndexPublic", products);
+        }
+
+        // GET: Products/Admin - Admin management view
+        public async Task<IActionResult> Admin()
+        {
             var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View("Index", await applicationDbContext.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -63,7 +72,7 @@ namespace wed_project.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Admin));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
@@ -116,7 +125,7 @@ namespace wed_project.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Admin));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
@@ -153,7 +162,7 @@ namespace wed_project.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Admin));
         }
 
         private bool ProductExists(int id)
