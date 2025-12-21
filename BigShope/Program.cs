@@ -5,8 +5,21 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Determine which connection string to use based on the platform
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// If LocalDB connection fails on non-Windows platforms, use SqlServerConnection
+if (!OperatingSystem.IsWindows() || Environment.GetEnvironmentVariable("USE_SQL_SERVER") == "true")
+{
+    var sqlServerConnection = builder.Configuration.GetConnectionString("SqlServerConnection");
+    if (!string.IsNullOrEmpty(sqlServerConnection))
+    {
+        connectionString = sqlServerConnection;
+    }
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
 {
