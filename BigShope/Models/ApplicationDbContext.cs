@@ -56,16 +56,16 @@ namespace BigShope.Models
 
             modelBuilder.Entity<Product>().HasData(
                 // New Products
-                new Product { ProductId = 1, CategoryId = 1, Name = "Smartphone X", Description = "Latest smartphone with advanced features", Price = 999.99m, ImageUrl = "/images/p1.jpg", StockQuantity = 50, IsNew = true, IsActive = true },
-                new Product { ProductId = 2, CategoryId = 2, Name = "Designer Bag", Description = "Elegant designer handbag", Price = 299.99m, ImageUrl = "/images/p2.jpg", StockQuantity = 30, IsNew = true, IsActive = true },
-                new Product { ProductId = 3, CategoryId = 3, Name = "Modern Lamp", Description = "Contemporary desk lamp", Price = 89.99m, ImageUrl = "/images/p3.jpg", StockQuantity = 40, IsNew = true, IsActive = true },
-                new Product { ProductId = 4, CategoryId = 4, Name = "Yoga Mat", Description = "Premium yoga mat for exercise", Price = 49.99m, ImageUrl = "/images/p4.jpg", StockQuantity = 100, IsNew = true, IsActive = true },
+                new Product { ProductId = 1, CategoryId = 1, Name = "Smartphone X", Description = "Latest smartphone with advanced features", Price = 999.99m, ImageUrl = "/images/si1.jpg", StockQuantity = 50, IsNew = true, IsActive = true },
+                new Product { ProductId = 2, CategoryId = 2, Name = "Designer Bag", Description = "Elegant designer handbag", Price = 299.99m, ImageUrl = "/images/ba.jpg", StockQuantity = 30, IsNew = true, IsActive = true },
+                new Product { ProductId = 3, CategoryId = 3, Name = "Modern Lamp", Description = "Contemporary desk lamp", Price = 89.99m, ImageUrl = "/images/pic.jpg", StockQuantity = 40, IsNew = true, IsActive = true },
+                new Product { ProductId = 4, CategoryId = 4, Name = "Yoga Mat", Description = "Premium yoga mat for exercise", Price = 49.99m, ImageUrl = "/images/s1.jpg", StockQuantity = 100, IsNew = true, IsActive = true },
                 
                 // Promotional Products
-                new Product { ProductId = 5, CategoryId = 1, Name = "Laptop Pro", Description = "High-performance laptop", Price = 1499.99m, PromotionalPrice = 1199.99m, ImageUrl = "/images/p5.jpg", StockQuantity = 25, IsPromotion = true, IsActive = true },
-                new Product { ProductId = 6, CategoryId = 2, Name = "Winter Jacket", Description = "Warm winter jacket", Price = 199.99m, PromotionalPrice = 149.99m, ImageUrl = "/images/p6.jpg", StockQuantity = 60, IsPromotion = true, IsActive = true },
-                new Product { ProductId = 7, CategoryId = 3, Name = "Coffee Maker", Description = "Automatic coffee machine", Price = 249.99m, PromotionalPrice = 199.99m, ImageUrl = "/images/p7.jpg", StockQuantity = 35, IsPromotion = true, IsActive = true },
-                new Product { ProductId = 8, CategoryId = 5, Name = "Programming Guide", Description = "Complete programming tutorial", Price = 59.99m, PromotionalPrice = 39.99m, ImageUrl = "/images/p8.jpg", StockQuantity = 80, IsPromotion = true, IsActive = true }
+                new Product { ProductId = 5, CategoryId = 1, Name = "Laptop Pro", Description = "High-performance laptop", Price = 1499.99m, PromotionalPrice = 1199.99m, ImageUrl = "/images/si2.jpg", StockQuantity = 25, IsPromotion = true, IsActive = true },
+                new Product { ProductId = 6, CategoryId = 2, Name = "Winter Jacket", Description = "Warm winter jacket", Price = 199.99m, PromotionalPrice = 149.99m, ImageUrl = "/images/pic2.jpg", StockQuantity = 60, IsPromotion = true, IsActive = true },
+                new Product { ProductId = 7, CategoryId = 3, Name = "Coffee Maker", Description = "Automatic coffee machine", Price = 249.99m, PromotionalPrice = 199.99m, ImageUrl = "/images/bott.jpg", StockQuantity = 35, IsPromotion = true, IsActive = true },
+                new Product { ProductId = 8, CategoryId = 5, Name = "Programming Guide", Description = "Complete programming tutorial", Price = 59.99m, PromotionalPrice = 39.99m, ImageUrl = "/images/pic3.jpg", StockQuantity = 80, IsPromotion = true, IsActive = true }
             );
         }
     }

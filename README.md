@@ -27,29 +27,29 @@ git clone https://github.com/Mquangsociu/big-shope.git
 cd big-shope
 ```
 
-### 2. Update Database Connection String
+### 2. Update Database Connection String (if needed)
 
-Edit `BigShope/appsettings.json` and update the connection string based on your SQL Server setup:
+The application is pre-configured to work with **SQL Server Express** or **SQL Server Developer Edition** using Windows Authentication.
 
-**For LocalDB (Visual Studio):**
+**Default Configuration (SQL Server Express - Recommended):**
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=BigShopeDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=BigShopeDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
   }
 }
 ```
 
-**For SQL Server Express:**
+**For SQL Server Developer Edition:**
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=BigShopeDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=localhost;Database=BigShopeDb;Integrated Security=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
   }
 }
 ```
 
-**For SQL Server with credentials:**
+**For SQL Server with SQL Authentication:**
 ```json
 {
   "ConnectionStrings": {
@@ -57,6 +57,8 @@ Edit `BigShope/appsettings.json` and update the connection string based on your 
   }
 }
 ```
+
+**Note:** The application no longer uses LocalDB to ensure better compatibility with SQL Server Developer/Express editions commonly used in development.
 
 ### 3. Create Database
 
@@ -69,13 +71,27 @@ dotnet ef database update
 
 This will create the database and seed it with sample categories and products.
 
+**Optional - Update Product Images (if using existing database):**
+
+If you already have a database from a previous version, you may need to update product image URLs to display correctly. Run the provided SQL script:
+
+```sql
+-- In SQL Server Management Studio or your SQL client
+-- Navigate to BigShope folder and run: UpdateProductImages.sql
+```
+
+Or manually execute:
+```bash
+sqlcmd -S .\SQLEXPRESS -d BigShopeDb -i UpdateProductImages.sql
+```
+
 ### 4. Run the Application
 
 ```bash
 dotnet run
 ```
 
-Or open the solution in Visual Studio and press F5.
+Or open `BigShope.sln` in Visual Studio and press F5.
 
 The application will be available at:
 - HTTPS: https://localhost:5001
