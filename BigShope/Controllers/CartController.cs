@@ -7,13 +7,10 @@ using System.Security.Claims;
 namespace BigShope.Controllers
 {
     [Authorize]
-    public class CartController : Controller
+    public class CartController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public CartController(ApplicationDbContext context)
+        public CartController(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         // GET: Cart

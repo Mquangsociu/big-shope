@@ -1,49 +1,169 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BigShope</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/BigShope.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Big Shope</title>
+    <link href="~/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="~/js/jquery.min.js"></script>
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BigShope</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+    <div class="header">
+        <div class="top-header">
+            <div class="container">
+                <div class="top-header-left">
+                    <ul class="support">
+                        <li><a href="#"><label> </label></a></li>
+                        <li><a href="#">24x7 live<span class="live"> support</span></a></li>
                     </ul>
+                    <ul class="support">
+                        <li class="van"><a href="#"><label> </label></a></li>
+                        <li><a href="#">Free shipping <span class="live">on order over 500</span></a></li>
+                    </ul>
+                    <div class="clearfix"> </div>
                 </div>
+                <div class="top-header-right">
+                    <div class="down-top">
+                        <select class="in-drop">
+                            <option value="English" class="in-of">English</option>
+                            <option value="Japanese" class="in-of">Japanese</option>
+                            <option value="French" class="in-of">French</option>
+                            <option value="German" class="in-of">German</option>
+                        </select>
+                    </div>
+                    <div class="down-top top-down">
+                        <select class="in-drop">
+                            <option value="Dollar" class="in-of">Dollar</option>
+                            <option value="Yen" class="in-of">Yen</option>
+                            <option value="Euro" class="in-of">Euro</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+        <div class="bottom-header">
+            <div class="container">
+                <div class="header-bottom-left">
+                    <div class="logo">
+                        <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt=" " /></a>
+                    </div>
+                    <div class="search">
+                        <form method="get" asp-controller="Products" asp-action="Index">
+                            <input type="text" name="search" value="" placeholder="Search products..." />
+                            <input type="submit" value="SEARCH">
+                        </form>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="header-bottom-right">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="account"><a asp-controller="Account" asp-action="Index"><span> </span>@User.Identity.Name</a></div>
+                        <ul class="login">
+                            <li>
+                                <form method="post" asp-controller="Account" asp-action="Logout" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" style="background:none;border:none;color:#fff;cursor:pointer;padding:0;">LOGOUT</button>
+                                </form>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="account"><a asp-controller="Account" asp-action="Login"><span> </span>YOUR ACCOUNT</a></div>
+                        <ul class="login">
+                            <li><a asp-controller="Account" asp-action="Login"><span> </span>LOGIN</a></li> |
+                            <li><a asp-controller="Account" asp-action="Register">SIGNUP</a></li>
+                        </ul>
+                    }
+                    <div class="cart"><a asp-controller="Cart" asp-action="Index"><span> </span>CART</a></div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - BigShope - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @RenderBody()
+
+    <div class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="latter">
+                    <h6>NEWS-LETTER</h6>
+                    <div class="sub-left-right">
+                        <form>
+                            <input type="text" value="Enter email here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter email here';}" />
+                            <input type="submit" value="SUBSCRIBE" />
+                        </form>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="latter-right">
+                    <p>FOLLOW US</p>
+                    <ul class="face-in-to">
+                        <li><a href="#"><span> </span></a></li>
+                        <li><a href="#"><span class="facebook-in"> </span></a></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-cate">
+                    <h6>CATEGORIES</h6>
+                    <ul>
+                        @if (ViewBag.FooterCategories != null)
+                        {
+                            @foreach (var category in ViewBag.FooterCategories)
+                            {
+                                <li><a asp-controller="Products" asp-action="Index" asp-route-categoryId="@category.CategoryId">@category.Name</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="footer-bottom-cate bottom-grid-cat">
+                    <h6>QUICK LINKS</h6>
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Products" asp-action="Index">Products</a></li>
+                        <li><a asp-controller="Cart" asp-action="Index">Shopping Cart</a></li>
+                        <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </div>
+                <div class="footer-bottom-cate">
+                    <h6>ADMIN</h6>
+                    <ul>
+                        <li><a asp-controller="CategoryManagement" asp-action="Index">Manage Categories</a></li>
+                        <li><a asp-controller="ProductManagement" asp-action="Index">Manage Products</a></li>
+                    </ul>
+                </div>
+                <div class="footer-bottom-cate cate-bottom">
+                    <h6>OUR ADDRESS</h6>
+                    <ul>
+                        <li>Aliquam metus dui.</li>
+                        <li>orci, ornareidquet</li>
+                        <li>ut,DUI.</li>
+                        <li>nisi, dignissim</li>
+                        <li>gravida at.</li>
+                        <li class="phone">PH : 6985792466</li>
+                        <li class="temp"><p class="footer-class">Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

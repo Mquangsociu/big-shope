@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BigShope.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         // GET: Products (Product listing page)

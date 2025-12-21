@@ -7,13 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace BigShope.Controllers
 {
     [Authorize]
-    public class ProductManagementController : Controller
+    public class ProductManagementController : BaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public ProductManagementController(ApplicationDbContext context)
+        public ProductManagementController(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         // GET: ProductManagement
