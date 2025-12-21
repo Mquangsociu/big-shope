@@ -98,7 +98,7 @@
         <div class="product-left">
             @if (ViewBag.NewProducts != null)
             {
-                @foreach (var product in ViewBag.NewProducts)
+                @foreach (BigShope.Models.Product product in ViewBag.NewProducts)
                 {
                     <div class="col-md-4 chain-grid">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
@@ -150,7 +150,7 @@
         <div class="product-left">
             @if (ViewBag.PromotionalProducts != null)
             {
-                @foreach (var product in ViewBag.PromotionalProducts)
+                @foreach (BigShope.Models.Product product in ViewBag.PromotionalProducts)
                 {
                     <div class="col-md-4 chain-grid">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
