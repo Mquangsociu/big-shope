@@ -27,6 +27,7 @@ namespace BigShope.Controllers
 
         // POST: Cart/AddToCart
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -1310,15 +1310,8 @@ a.get-cart {
 	margin: 0px auto;
 	padding: 0;
 }
-.sub-cate {
+.women-product, .account_grid, .register, .single_top, .main, .latter {
 	width: 100%;
-}
-.women-product, .account_grid, .register, .single_top, .main,.shoes-grid ,.latter {
-	width: 100%;
-}
-.shoes-grid {
-	width: 100%;
-	float: left;
 }
 .con-sed-grid {
 	margin: 1em 1.4em 0 0;

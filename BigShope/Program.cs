@@ -5,17 +5,12 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Determine which connection string to use based on the platform
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Use SQL Server connection string
+var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 
-// If LocalDB connection fails on non-Windows platforms, use SqlServerConnection
-if (!OperatingSystem.IsWindows() || Environment.GetEnvironmentVariable("USE_SQL_SERVER") == "true")
+if (string.IsNullOrEmpty(connectionString))
 {
-    var sqlServerConnection = builder.Configuration.GetConnectionString("SqlServerConnection");
-    if (!string.IsNullOrEmpty(sqlServerConnection))
-    {
-        connectionString = sqlServerConnection;
-    }
+    throw new InvalidOperationException("Connection string 'SqlServerConnection' not found in appsettings.json");
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -32,6 +27,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/Login";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddControllersWithViews();
 

@@ -1,18 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using BigShope.Models.ViewModels;
+using BigShope.Models;
 
 namespace BigShope.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ApplicationDbContext context) : base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        // GET: Account/Index
+        [Authorize]
+        public IActionResult Index()
+        {
+            var userName = User.Identity?.Name;
+            ViewBag.UserName = userName;
+            return View();
         }
 
         // GET: Account/Login

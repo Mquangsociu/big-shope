@@ -8,130 +8,216 @@
 }
 
 <div class="container">
-    <div class="single_top">
-        <div class="single_grid">
+    <div class=" single_top">
+      <div class="single_grid">
             <div class="grid images_3_of_2">
-                <ul id="etalage">
-                    <li>
-                        <a href="#">
-                            <img class="etalage_thumb_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/s4.jpg" : Model.ImageUrl)" class="img-responsive" />
-                            <img class="etalage_source_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/si4.jpg" : Model.ImageUrl)" class="img-responsive" title="@Model.Name" />
-                        </a>
-                    </li>
-                </ul>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="desc1 span_3_of_2">
+                    <ul id="etalage">
+                        <li>
+                            <a href="#">
+                                <img class="etalage_thumb_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/s4.jpg" : Model.ImageUrl)" class="img-responsive" />
+                                <img class="etalage_source_image" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "~/images/si4.jpg" : Model.ImageUrl)" class="img-responsive" title="@Model.Name" />
+                            </a>
+                        </li>
+                        <li>
+                            <img class="etalage_thumb_image" src="~/images/s2.jpg" class="img-responsive" />
+                            <img class="etalage_source_image" src="~/images/si2.jpg" class="img-responsive" title="@Model.Name" />
+                        </li>
+                        <li>
+                            <img class="etalage_thumb_image" src="~/images/s3.jpg" class="img-responsive"  />
+                            <img class="etalage_source_image" src="~/images/si3.jpg" class="img-responsive"  />
+                        </li>
+                        <li>
+                            <img class="etalage_thumb_image" src="~/images/s1.jpg" class="img-responsive"  />
+                            <img class="etalage_source_image" src="~/images/si1.jpg" class="img-responsive"  />
+                        </li>
+                    </ul>
+                     <div class="clearfix"> </div>
+              </div> 
+              <div class="desc1 span_3_of_2">
+                
                 <h4>@Model.Name</h4>
-                <div class="cart-b">
-                    @if (Model.PromotionalPrice.HasValue)
-                    {
-                        <div class="left-n" style="text-decoration: line-through; color: #999;">$@Model.Price</div>
-                        <div class="left-n" style="color: #ff0000; font-weight: bold;">$@Model.PromotionalPrice</div>
-                    }
-                    else
-                    {
-                        <div class="left-n">$@Model.Price</div>
-                    }
-                    <form method="post" asp-controller="Cart" asp-action="AddToCart" style="display:inline;">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="productId" value="@Model.ProductId" />
-                        <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" style="width: 60px; margin-right: 10px;" />
-                        <button type="submit" class="now-get get-cart-in">ADD TO CART</button>
-                    </form>
-                    <div class="clearfix"></div>
-                </div>
-                <h6>@Model.StockQuantity items in stock</h6>
+            <div class="cart-b">
+                <div class="left-n ">Rs @((Model.PromotionalPrice ?? Model.Price).ToString("0.##"))</div>
+                <form method="post" asp-controller="Cart" asp-action="AddToCart" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                    <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" style="width:60px; margin-right:8px;" />
+                    <button type="submit" class="now-get get-cart-in">ADD TO CART</button>
+                </form>
+                <div class="clearfix"></div>
+             </div>
+             <h6>@Model.StockQuantity items in stock</h6>
                 <p>@Model.Description</p>
                 <div class="share">
-                    <h5>Share Product :</h5>
-                    <ul class="share_nav">
-                        <li><a href="#"><img src="~/images/facebook.png" title="facebook"></a></li>
-                        <li><a href="#"><img src="~/images/twitter.png" title="Twitter"></a></li>
-                        <li><a href="#"><img src="~/images/rss.png" title="Rss"></a></li>
-                        <li><a href="#"><img src="~/images/gpluse.png" title="Google+"></a></li>
-                    </ul>
-                </div>
+                        <h5>Share Product :</h5>
+                        <ul class="share_nav">
+                            <li><a href="#"><img src="~/images/facebook.png" title="facebook"></a></li>
+                            <li><a href="#"><img src="~/images/twitter.png" title="Twiiter"></a></li>
+                            <li><a href="#"><img src="~/images/rss.png" title="Rss"></a></li>
+                            <li><a href="#"><img src="~/images/gpluse.png" title="Google+"></a></li>
+                        </ul>
+                    </div>
+           
+            
             </div>
-            <div class="clearfix"> </div>
-        </div>
-
-        @if (ViewBag.RelatedProducts != null && ViewBag.RelatedProducts.Count > 0)
+           <div class="clearfix"> </div>
+           </div>
+           <ul id="flexiselDemo1">
+        @if (ViewBag.RelatedProducts is IEnumerable<BigShope.Models.Product> rp && rp.Any())
         {
-            <h3 class="m_3">Related Products</h3>
-            <ul id="flexiselDemo1">
-                @foreach (var relatedProduct in ViewBag.RelatedProducts)
-                {
-                    <li>
-                        <a asp-action="Details" asp-route-id="@relatedProduct.ProductId">
-                            <img src="@(string.IsNullOrEmpty(relatedProduct.ImageUrl) ? "~/images/pi.jpg" : relatedProduct.ImageUrl)" />
-                        </a>
-                        <div class="grid-flex">
-                            <a asp-action="Details" asp-route-id="@relatedProduct.ProductId">@relatedProduct.Name</a>
-                            <p>$@(relatedProduct.PromotionalPrice ?? relatedProduct.Price)</p>
-                        </div>
-                    </li>
-                }
-            </ul>
+            foreach (var relatedProduct in rp)
+            {
+                <li>
+                    <a asp-action="Details" asp-route-id="@relatedProduct.ProductId">
+                        <img src="@(string.IsNullOrEmpty(relatedProduct.ImageUrl) ? "~/images/pi.jpg" : relatedProduct.ImageUrl)" />
+                    </a>
+                    <div class="grid-flex"><a asp-action="Details" asp-route-id="@relatedProduct.ProductId">@relatedProduct.Name</a><p>Rs @((relatedProduct.PromotionalPrice ?? relatedProduct.Price).ToString("0.##"))</p></div>
+                </li>
+            }
         }
+        else
+        {
+            <li><img src="~/images/pi.jpg" /><div class="grid-flex"><a href="#">Bloch</a><p>Rs 850</p></div></li>
+            <li><img src="~/images/pi1.jpg" /><div class="grid-flex"><a href="#">Capzio</a><p>Rs 850</p></div></li>
+            <li><img src="~/images/pi2.jpg" /><div class="grid-flex"><a href="#">Zumba</a><p>Rs 850</p></div></li>
+            <li><img src="~/images/pi3.jpg" /><div class="grid-flex"><a href="#">Bloch</a><p>Rs 850</p></div></li>
+            <li><img src="~/images/pi4.jpg" /><div class="grid-flex"><a href="#">Capzio</a><p>Rs 850</p></div></li>
+        }
+     </ul>
 
-        <div class="toogle">
-            <h3 class="m_3">Product Details</h3>
-            <p class="m_text">@Model.Description</p>
-            @if (Model.Category != null)
-            {
-                <p><strong>Category:</strong> @Model.Category.Name</p>
-            }
-            <p><strong>Stock:</strong> @Model.StockQuantity units available</p>
-            @if (Model.IsNew)
-            {
-                <span class="badge" style="background-color: #28a745;">New Product</span>
-            }
-            @if (Model.IsPromotion)
-            {
-                <span class="badge" style="background-color: #dc3545;">On Promotion</span>
-            }
+                <div class="toogle">
+                    <h3 class="m_3">Product Details</h3>
+                    <p class="m_text">@Model.Description</p>
+                 </div>
+           </div>
+
+           <!---->
+<div class="sub-cate">
+                <div class=" top-nav rsidebar span_1_of_left">
+                    <h3 class="cate">CATEGORIES</h3>
+          <ul class="menu">
+        <li class="item1"><a href="#">Curabitur sapien<img class="arrow-img" src="~/images/arrow1.png" alt=""/> </a>
+            <ul class="cute">
+                <li class="subitem1"><a href="#">Cute Kittens </a></li>
+                <li class="subitem2"><a href="#">Strange Stuff </a></li>
+                <li class="subitem3"><a href="#">Automatic Fails </a></li>
+            </ul>
+        </li>
+        <li class="item2"><a href="#">Dignissim purus <img class="arrow-img " src="~/images/arrow1.png" alt=""/></a>
+            <ul class="cute">
+                <li class="subitem1"><a href="#">Cute Kittens </a></li>
+                <li class="subitem2"><a href="#">Strange Stuff </a></li>
+                <li class="subitem3"><a href="#">Automatic Fails </a></li>
+            </ul>
+        </li>
+        <li class="item3"><a href="#">Ultrices id du<img class="arrow-img img-arrow" src="~/images/arrow1.png" alt=""/> </a>
+            <ul class="cute">
+                <li class="subitem1"><a href="#">Cute Kittens </a></li>
+                <li class="subitem2"><a href="#">Strange Stuff </a></li>
+                <li class="subitem3"><a href="#">Automatic Fails</a></li>
+            </ul>
+        </li>
+        <li class="item4"><a href="#">Cras iacaus rhone <img class="arrow-img img-left-arrow" src="~/images/arrow1.png" alt=""/></a>
+            <ul class="cute">
+                <li class="subitem1"><a href="#">Cute Kittens </a></li>
+                <li class="subitem2"><a href="#">Strange Stuff </a></li>
+                <li class="subitem3"><a href="#">Automatic Fails </a></li>
+            </ul>
+        </li>
+                <li>
+            <ul class="kid-menu">
+                <li><a asp-controller="Products" asp-action="Index">Tempus pretium</a></li>
+                <li ><a asp-controller="Products" asp-action="Index">Dignissim neque</a></li>
+                <li ><a asp-controller="Products" asp-action="Index">Ornared id aliquet</a></li>
+            </ul>
+        </li>
+        <ul class="kid-menu ">
+                <li><a asp-controller="Products" asp-action="Index">Commodo sit</a></li>
+                <li ><a asp-controller="Products" asp-action="Index">Urna ac tortor sc</a></li>
+                <li><a asp-controller="Products" asp-action="Index">Ornared id aliquet</a></li>
+                <li><a asp-controller="Products" asp-action="Index">Urna ac tortor sc</a></li>
+                <li ><a asp-controller="Products" asp-action="Index">Eget nisi laoreet</a></li>
+                <li><a asp-controller="Products" asp-action="Index">Faciisis ornare</a></li>
+                <li class="menu-kid-left"><a asp-controller="Home" asp-action="Index">Contact us</a></li>
+            </ul>
+        
+    </ul>
+                    </div>
+                <!--initiate accordion-->
+        <script type="text/javascript">
+            $(function() {
+                var menu_ul = $('.menu > li > ul'),
+                       menu_a  = $('.menu > li > a');
+                menu_ul.hide();
+                menu_a.click(function(e) {
+                    e.preventDefault();
+                    if(!$(this).hasClass('active')) {
+                        menu_a.removeClass('active');
+                        menu_ul.filter(':visible').slideUp('normal');
+                        $(this).addClass('active').next().stop(true,true).slideDown('normal');
+                    } else {
+                        $(this).removeClass('active');
+                        $(this).next().stop(true,true).slideUp('normal');
+                    }
+                });
+            
+            });
+        </script>
+                    <div class=" chain-grid menu-chain">
+                        <a asp-action="Details" asp-route-id="@(ViewBag.FeaturedProduct?.ProductId ?? 1)"><img class="img-responsive chain" src="~/images/wat.jpg" alt=" " /></a>
+                        <div class="grid-chain-bottom chain-watch">
+                            <span class="actual dolor-left-grid">300$</span>
+                            <span class="reducedfrom">500$</span>  
+                            <h6>Lorem ipsum dolor</h6>  
+                        </div>
+                    </div>
+                     <a class="view-all all-product" asp-controller="Products" asp-action="Index">VIEW ALL PRODUCTS<span> </span></a> 
+            </div>
+<div class="clearfix"> </div>            
         </div>
-    </div>
 </div>
 
 @section Scripts {
     <script src="~/js/jquery.etalage.min.js"></script>
+    <script>
+                jQuery(document).ready(function($){
+
+                    $('#etalage').etalage({
+                        thumb_image_width: 300,
+                        thumb_image_height: 400,
+                        source_image_width: 900,
+                        source_image_height: 1200,
+                        show_hint: true,
+                    });
+
+                });
+            </script>
     <script type="text/javascript" src="~/js/jquery.flexisel.js"></script>
     <script>
-        jQuery(document).ready(function ($) {
-            $('#etalage').etalage({
-                thumb_image_width: 300,
-                thumb_image_height: 400,
-                source_image_width: 900,
-                source_image_height: 1200,
-                show_hint: true
-            });
-        });
-
-        $(window).load(function () {
+         $(window).load(function() {
             $("#flexiselDemo1").flexisel({
                 visibleItems: 5,
                 animationSpeed: 1000,
                 autoPlay: true,
-                autoPlaySpeed: 3000,
+                autoPlaySpeed: 3000,        
                 pauseOnHover: true,
                 enableResponsiveBreakpoints: true,
-                responsiveBreakpoints: {
-                    portrait: {
-                        changePoint: 480,
+                responsiveBreakpoints: { 
+                    portrait: { 
+                        changePoint:480,
                         visibleItems: 1
-                    },
-                    landscape: {
-                        changePoint: 640,
+                    }, 
+                    landscape: { 
+                        changePoint:640,
                         visibleItems: 2
                     },
-                    tablet: {
-                        changePoint: 768,
+                    tablet: { 
+                        changePoint:768,
                         visibleItems: 3
                     }
                 }
             });
+            
         });
     </script>
 }

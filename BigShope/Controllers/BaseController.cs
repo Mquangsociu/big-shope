@@ -14,7 +14,7 @@ namespace BigShope.Controllers
             _context = context;
         }
 
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext filterContext, ActionExecutionDelegate next)
         {
             // Load footer categories
             var categories = await _context.Categories

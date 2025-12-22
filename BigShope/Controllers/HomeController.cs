@@ -22,20 +22,13 @@ public class HomeController : BaseController
 
         var newProducts = await _context.Products
             .Include(p => p.Category)
-            .Where(p => p.IsActive && p.IsNew)
+            .Where(p => p.IsActive)
             .OrderByDescending(p => p.CreatedDate)
-            .Take(8)
-            .ToListAsync();
-
-        var promotionalProducts = await _context.Products
-            .Include(p => p.Category)
-            .Where(p => p.IsActive && p.IsPromotion)
-            .Take(8)
+            .Take(6)
             .ToListAsync();
 
         ViewBag.Categories = categories;
         ViewBag.NewProducts = newProducts;
-        ViewBag.PromotionalProducts = promotionalProducts;
 
         return View();
     }
